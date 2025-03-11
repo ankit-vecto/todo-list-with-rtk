@@ -1,49 +1,51 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { error } from "console";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+
+interface Todo {
+  id: string;
+  text: string;
+  completed: boolean;
+}
+
+export interface TodoState {
+  items: Todo[];
+  loading: boolean;
+  error: string | null;
+}
+
+const initialState: TodoState = {
+  items: [],
+  loading: false,
+  error: null,
+};
 
 const todoSlice = createSlice({
   name: "todoList",
-  initialState: {
-    items: [],
-    loading: null,
-    error: null,
-  },
+  initialState,
   reducers: {
-    addTodo: (state: any, action: any) => {
-      state.loading = true;
+    addTodo: (state, action: PayloadAction<Todo>) => {
       state.items.push(action.payload);
-      state.loading = false;
     },
-    deleteTodo: (state: any, action: any) => {
-      state.loading = true;
-      state.items = state.items.filter(
-        (item: any) => item.id !== action.payload
-      );
-      state.loading = false;
+    deleteTodo: (state, action: PayloadAction<string>) => {
+      state.items = state.items.filter((item) => item.id !== action.payload);
     },
-    updateTodo: (state: any, action) => {
-      state.loading = true;
-      const updatedItemIndex = state.items.findIndex(
-        (item: any) => item.id === action.payload.id
+    updateTodo: (
+      state,
+      action: PayloadAction<{ id: string; text: string }>
+    ) => {
+      const updatedItem = state.items.find(
+        (item) => item.id === action.payload.id
       );
-      if (updatedItemIndex !== -1) {
-        state.items[updatedItemIndex] = {
-          ...state.items[updatedItemIndex],
-          text: action.payload.text,
-        };
+      if (updatedItem) {
+        updatedItem.text = action.payload.text;
       }
-      state.loading = false;
     },
-    taskCompleted: (state: any, action) => {
-      state.loading = true;
-      const completedItemIndex = state.items.findIndex(
-        (item: any) => item.id === action.payload
+    taskCompleted: (state, action: PayloadAction<string>) => {
+      const completedItem = state.items.find(
+        (item) => item.id === action.payload
       );
-      if (completedItemIndex !== -1) {
-        state.items[completedItemIndex].completed =
-        !state.items[completedItemIndex].completed;
+      if (completedItem) {
+        completedItem.completed = !completedItem.completed;
       }
-      state.loading = false;
     },
   },
 });
