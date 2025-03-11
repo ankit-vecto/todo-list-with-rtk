@@ -78,10 +78,8 @@ const TodoList = () => {
                     <input
                       type="text"
                       value={editedTaskText}
-                      onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                        setEditedTaskText(e.target.value)
-                      }
-                      onKeyDown={(e: KeyboardEvent<HTMLInputElement>) => {
+                      onChange={(e: any) => setEditedTaskText(e.target.value)}
+                      onKeyDown={(e: any) => {
                         if (e.key === "Enter") {
                           updateTask(task?.id);
                         }
