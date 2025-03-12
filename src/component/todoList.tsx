@@ -21,20 +21,6 @@ const TodoList = () => {
 
   const [editingTaskId, setEditingTaskId] = useState<string | null>(null);
   const [editedTaskText, setEditedTaskText] = useState<string>("");
-  const [newTaskText, setNewTaskText] = useState<string>("");
-
-  const addTask = () => {
-    if (newTaskText.trim() !== "") {
-      dispatch(
-        addTodo({
-          id: Date.now().toString(),
-          text: newTaskText,
-          completed: false,
-        })
-      );
-      setNewTaskText("");
-    }
-  };
 
   const startEditingTask = (id: string, text: string): void => {
     setEditingTaskId(id);
@@ -58,31 +44,13 @@ const TodoList = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen bg-gray-100 dark:bg-gray-900">
-      <div className="w-full max-w-md bg-white dark:bg-gray-800 shadow-lg rounded-lg p-6">
-        <h1 className="text-2xl font-bold mb-4 text-gray-800 dark:text-gray-200">
-          Todo List
-        </h1>
-        <div className="flex items-center mb-4">
-          <input
-            type="text"
-            placeholder="Add a new task"
-            value={newTaskText}
-            onChange={(e) => setNewTaskText(e.target.value)}
-            className="flex-1 mr-2 px-3 py-2 rounded-md border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200"
-          />
-          <button
-            onClick={addTask}
-            className="bg-black hover:bg-slate-800 text-white font-medium py-2 px-4 rounded-md"
-          >
-            Add
-          </button>
-        </div>
+    <div className="flex flex-col items-center justify-center bg-gray-100 dark:bg-gray-900">
+      <div className="w-full bg-white dark:bg-gray-800 shadow rounded-lg p-6">
         <div className="space-y-2">
           {items?.map((task: Task) => (
             <div
               key={task.id}
-              className="flex items-center justify-between bg-gray-100 dark:bg-gray-700 rounded-md px-4 py-2"
+              className=" w-full flex items-center justify-between bg-gray-100 dark:bg-gray-700 rounded-md px-4 py-2"
             >
               <div className="flex items-center">
                 <input
