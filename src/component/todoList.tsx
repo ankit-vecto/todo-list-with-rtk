@@ -44,61 +44,71 @@ const TodoList = () => {
 
   return (
     <div className="flex flex-col items-center justify-center bg-gray-100 dark:bg-gray-900">
-      <div className="w-full bg-white dark:bg-gray-800 shadow rounded-lg p-6">
-        <div className="space-y-2">
-          {items?.map((task: Task) => (
-            <div
-              key={task.id}
-              className=" w-full flex items-center justify-between bg-gray-100 dark:bg-gray-700 rounded-md px-4 py-2"
-            >
-              <div className="flex items-center">
-                <input
-                  type="checkbox"
-                  checked={task.completed}
-                  onChange={() => toggleTaskCompletion(task.id)}
-                  className="mr-2"
-                />
-                {editingTaskId === task.id ? (
+      {items.length !== 0 ? (
+        <div className="w-full bg-white dark:bg-gray-800 shadow rounded-lg p-6">
+          <div className="space-y-2">
+            {items?.map((task: Task) => (
+              <div
+                key={task.id}
+                className=" w-full flex items-center justify-between bg-gray-100 dark:bg-gray-700 rounded-md px-4 py-2"
+              >
+                <div className="flex items-center">
                   <input
-                    type="text"
-                    value={editedTaskText}
-                    onChange={(e) => setEditedTaskText(e.target.value)}
-                    onKeyDown={(e) => e.key === "Enter" && updateTask(task.id)}
-                    className="flex-1 px-3 py-2 rounded-md border border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-200"
+                    type="checkbox"
+                    checked={task.completed}
+                    onChange={() => toggleTaskCompletion(task.id)}
+                    className="mr-2"
                   />
-                ) : (
-                  <span className="flex-1 text-gray-800 dark:text-gray-200">
-                    {task.text}
-                  </span>
-                )}
-              </div>
-              <div className="flex items-center">
-                {editingTaskId === task.id ? (
+                  {editingTaskId === task.id ? (
+                    <input
+                      type="text"
+                      value={editedTaskText}
+                      onChange={(e) => setEditedTaskText(e.target.value)}
+                      onKeyDown={(e) =>
+                        e.key === "Enter" && updateTask(task.id)
+                      }
+                      className="flex-1 px-3 py-2 rounded-md border border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-200"
+                    />
+                  ) : (
+                    <span className="flex-1 text-gray-800 dark:text-gray-200">
+                      {task.text}
+                    </span>
+                  )}
+                </div>
+                <div className="flex items-center">
+                  {editingTaskId === task.id ? (
+                    <button
+                      onClick={() => updateTask(task.id)}
+                      className="bg-black hover:bg-slate-800 text-white font-medium py-1 px-2 rounded-md mr-2"
+                    >
+                      Save
+                    </button>
+                  ) : (
+                    <button
+                      onClick={() => startEditingTask(task.id, task.text)}
+                      className="bg-gray-300 hover:bg-gray-400 text-gray-800 dark:bg-gray-600 dark:hover:bg-gray-500 dark:text-gray-200 font-medium py-1 px-2 rounded-md mr-2"
+                    >
+                      Edit
+                    </button>
+                  )}
                   <button
-                    onClick={() => updateTask(task.id)}
-                    className="bg-black hover:bg-slate-800 text-white font-medium py-1 px-2 rounded-md mr-2"
+                    onClick={() => deleteTask(task.id)}
+                    className="bg-red-500 hover:bg-red-600 text-white font-medium py-1 px-2 rounded-md"
                   >
-                    Save
+                    Delete
                   </button>
-                ) : (
-                  <button
-                    onClick={() => startEditingTask(task.id, task.text)}
-                    className="bg-gray-300 hover:bg-gray-400 text-gray-800 dark:bg-gray-600 dark:hover:bg-gray-500 dark:text-gray-200 font-medium py-1 px-2 rounded-md mr-2"
-                  >
-                    Edit
-                  </button>
-                )}
-                <button
-                  onClick={() => deleteTask(task.id)}
-                  className="bg-red-500 hover:bg-red-600 text-white font-medium py-1 px-2 rounded-md"
-                >
-                  Delete
-                </button>
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
-      </div>
+      ) : (
+        <div className="flex items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-900">
+          <div className="text-center text-gray-800 dark:text-gray-200">
+            No tasks found. Add a new one by clicking on the Add button above.
+          </div>
+        </div>
+      )}
     </div>
   );
 };

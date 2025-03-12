@@ -17,6 +17,8 @@ const Header = () => {
         })
       );
       setNewTaskText("");
+    } else {
+      alert("cannot add emtpy task");
     }
   };
   return (
