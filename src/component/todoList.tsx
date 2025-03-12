@@ -1,6 +1,5 @@
 "use client";
 import {
-  addTodo,
   deleteTodo,
   taskCompleted,
   TodoState,
